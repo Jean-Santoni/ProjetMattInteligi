@@ -1,5 +1,8 @@
 package fr.rodez3il.a2022.mrmatt.sources;
 
+import fr.rodez3il.a2022.mrmatt.sources.objets.ObjetPlateau;
+import fr.rodez3il.a2022.mrmatt.sources.objets.Rocher;
+
 public class Niveau {
 	
 	// Les objets sur le plateau du niveau
@@ -16,15 +19,24 @@ public class Niveau {
 	 * @author .............
 	 */
 	public Niveau(String chemin) {
-		this();
+		this.plateau = new ObjetPlateau[0][0];
+		this.joueurX=0;
+		this.joueurY=0;
 		chargerNiveau(chemin);
+	}
+
+	private void chargerNiveau(String chemin) {
 	}
 
 	/**
 	 * Javadoc à réaliser...
 	 */
 	private void echanger(int sourceX, int sourceY, int destinationX, int destinationY) {
-    // ........
+
+		ObjetPlateau plateauTampon = this.plateau[destinationX][destinationY];
+		this.plateau[destinationX][destinationY] = this.plateau[sourceX][sourceY];
+		this.plateau[sourceX][sourceY] = plateauTampon;
+
 	}
 
 	/**
