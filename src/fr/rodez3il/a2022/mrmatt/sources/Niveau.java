@@ -23,7 +23,6 @@ public class Niveau {
 	 * @author .............
 	 */
 	public Niveau(String chemin) {
-		this.plateau = new ObjetPlateau[0][0];
 		this.joueurX=0;
 		this.joueurY=0;
 		this.pommesRestantes = 0;
@@ -34,30 +33,35 @@ public class Niveau {
 	private void chargerNiveau(String chemin) {
 		String fichier = Utils.lireFichier(chemin);
 		String[] ligne = fichier.split("\n");
-		int nbColonne = Integer.valueOf(ligne[0]);
-		int nbLigne = Integer.valueOf(ligne[1]);
+		int nbColonne = Integer.valueOf(ligne[0].trim());
+		int nbLigne = Integer.valueOf(ligne[1].trim());
 		this.plateau = new ObjetPlateau[nbColonne][nbLigne];
+		int abscisse = 0;
+		int ordonnee = 0;
 
-
-		for(int i = 2; i < ligne.length; ++i) {
-			for(int j = 0; j < ligne[i].length(); ++j) {
-				char character = ligne[i].charAt(j);
+		for(int i = 0; i < nbColonne; ++i) {
+			for(int j = 0; j < nbLigne; ++j) {
+				char character = ligne[j+2].charAt(i);
 				ObjetPlateau objetTampon = null;
 				if ("*-+# H".indexOf(character) >= 0) {
 					objetTampon = ObjetPlateau.depuisCaractere(character);
 				}
 
 				if (character == 'H') {
-					this.joueurX = j;
-					this.joueurY = i-2;
+					this.joueurX = abscisse;
+					this.joueurY = ordonnee;
 				}
 
 				if (character == '+') {
 					this.pommesRestantes++;
 				}
 
-				this.plateau[j][i-2] = objetTampon;
+				this.plateau[i][j] = objetTampon;
+				ordonnee++;
 			}
+
+			abscisse++;
+			ordonnee=0;
 
 
 		}
