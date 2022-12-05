@@ -47,7 +47,7 @@ public class Jeu {
 	 */
 	public static void main(String[] args) throws IOException {
 		// Le chemin du plateau à charger s'il n'y a aucun argument
-		String chemin = "src/niveaux/AppleTown/1-the-market.txt";
+		String chemin = "*/niveaux/1rocher.txt";
 		// vous pouvez changer ici le nom de fichier si vous le souhaitez.
 		if (args.length > 0) {
 			chemin = args[0];
@@ -60,7 +60,7 @@ public class Jeu {
 		System.out.println("- q : pour quitter");
 		System.out.println("- 0 : pour annuler le dernier déplacement");
 		// Boucle d'attente de jeu
-		while (plateau.enCours()) {
+		/*while (plateau.enCours()) {
 			// Affiche le plateau et récupère la commande du joueur
 			plateau.afficher();
 			System.out.println("Entrez une commande :");
@@ -79,7 +79,7 @@ public class Jeu {
 					plateau.etatSuivant();
 				}
 			}
-		}
+		}*/
 		plateau.afficher();
 		plateau.afficherEtatFinal();
 	}

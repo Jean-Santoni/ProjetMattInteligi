@@ -37,31 +37,29 @@ public class Niveau {
 		int nbColonne = Integer.valueOf(ligne[0]);
 		int nbLigne = Integer.valueOf(ligne[1]);
 		this.plateau = new ObjetPlateau[nbColonne][nbLigne];
-		int positionJoueurX = 0;
-		int positionJoueurY = 0;
 
-		for(int var1 = 2; var1 < ligne.length; ++var1) {
-			for(int var2 = 0; var2 < ligne[var1].length(); ++var2) {
-				char var3 = ligne[var1].charAt(var2);
-				ObjetPlateau var11 = null;
-				if ("*-+# H".indexOf(var3) >= 0) {
-					var11 = ObjetPlateau.depuisCaractere(var3);
+
+		for(int i = 2; i < ligne.length; ++i) {
+			for(int j = 0; j < ligne[i].length(); ++j) {
+				char character = ligne[i].charAt(j);
+				ObjetPlateau objetTampon = null;
+				if ("*-+# H".indexOf(character) >= 0) {
+					objetTampon = ObjetPlateau.depuisCaractere(character);
 				}
 
-				if (var3 == 'H') {
-					this.joueurX = positionJoueurX;
-					this.joueurY = positionJoueurY;
+				if (character == 'H') {
+					this.joueurX = j;
+					this.joueurY = i-2;
 				}
 
-				if (var3 == '+') {
-					++this.pommesRestantes;
+				if (character == '+') {
+					this.pommesRestantes++;
 				}
 
-				this.plateau[positionJoueurX++][positionJoueurY] = var11;
+				this.plateau[j][i-2] = objetTampon;
 			}
 
-			positionJoueurX = 0;
-			++positionJoueurY;
+
 		}
 	}
 
@@ -103,7 +101,7 @@ public class Niveau {
 			}
 		}
 		if(r.getEtat()== EtatRocher.CHUTE){
-			if(x==this.plateau.length){
+			if(x==this.plateau.length-1){
 				r.setEtat(EtatRocher.FIXE);
 			}
 			if (this.plateau[x][y+1].estGlissant()){}
@@ -131,7 +129,7 @@ public class Niveau {
 
   // Illustrez les Javadocs manquantes lorsque vous coderez ces méthodes !
   
-	public boolean enCours() {}
+	//public boolean enCours() {}
 
   // Joue la commande C passée en paramètres
 	public boolean jouer(Commande c) {
@@ -198,7 +196,7 @@ public class Niveau {
 
 	/**
 	 */
-	public boolean estIntermediaire() {}
+	//public boolean estIntermediaire() {}
 
   // Code pour empêcher la compilation
 
