@@ -13,6 +13,7 @@ public class Niveau {
 	private int joueurY;
 	private int pommesRestantes;
 	private int nombreDeplacements;
+	private boolean enCours;
 
 	
   // Autres attributs que vous jugerez nécessaires...
@@ -36,8 +37,7 @@ public class Niveau {
 		int nbColonne = Integer.valueOf(ligne[0].trim());
 		int nbLigne = Integer.valueOf(ligne[1].trim());
 		this.plateau = new ObjetPlateau[nbColonne][nbLigne];
-		int abscisse = 0;
-		int ordonnee = 0;
+		this.enCours=true;
 
 		for(int i = 0; i < nbColonne; ++i) {
 			for(int j = 0; j < nbLigne; ++j) {
@@ -46,24 +46,15 @@ public class Niveau {
 				if ("*-+# H".indexOf(character) >= 0) {
 					objetTampon = ObjetPlateau.depuisCaractere(character);
 				}
-
 				if (character == 'H') {
-					this.joueurX = abscisse;
-					this.joueurY = ordonnee;
+					this.joueurX = i;
+					this.joueurY = j;
 				}
-
 				if (character == '+') {
 					this.pommesRestantes++;
 				}
-
 				this.plateau[i][j] = objetTampon;
-				ordonnee++;
 			}
-
-			abscisse++;
-			ordonnee=0;
-
-
 		}
 	}
 
@@ -85,9 +76,9 @@ public class Niveau {
 	 * ................
 	 */
 	public void afficher() {
-		for(int var1 = 0; var1 < this.plateau[0].length; ++var1) {
-			for(int var2 = 0; var2 < this.plateau.length; ++var2) {
-				System.out.print(this.plateau[var2][var1].afficher());
+		for(int x = 0; x < this.plateau[0].length; ++x) {
+			for(int y = 0; y < this.plateau.length; ++y) {
+				System.out.print(this.plateau[y][x].afficher());
 			}
 
 			System.out.println();
@@ -99,19 +90,34 @@ public class Niveau {
 
   // TODO : patron visiteur du Rocher...
 	public void etatSuivantVisiteur(Rocher r, int x, int y) {
-		if(r.getEtat()== EtatRocher.FIXE){
-			if(this.plateau[x][y+1].estVide()){
-				r.setEtat(EtatRocher.CHUTE);
-			}
+		switch (r.getEtat()){
+			case FIXE:
+				if(this.plateau[x][y+1].estVide()){
+					r.setEtat(EtatRocher.CHUTE);
+				}
+			break;
+			case CHUTE:
+				if(x==this.plateau.length-1){
+					this.echanger(x,y,x,y+1);
+				}
+				if (x == this.joueurX && y + 1 == this.joueurY) {
+					//this.perdu = true;
+				}
+				if(this.plateau[x][y+1].estVide()){
+					this.echanger(x,y,x,y+1);
+				}
+				if (this.plateau[x][y+1].estGlissant()){
+					if(this.plateau[x-1][y].estVide() && this.plateau[x-1][y+1].estVide()){
+						this.echanger(x,y,x-1,y+1);
+					}else if (x < this.plateau.length - 1 && this.plateau[x + 1][y].estVide() && this.plateau[x + 1][y + 1].estVide()) {
+						this.echanger(x, y, x + 1, y + 1);
+					} else {
+						r.setEtat(EtatRocher.FIXE);
+					}
+				 }else{
+					r.setEtat(EtatRocher.FIXE);
+				}
 		}
-		if(r.getEtat()== EtatRocher.CHUTE){
-			if(x==this.plateau.length-1){
-				r.setEtat(EtatRocher.FIXE);
-			}
-			if (this.plateau[x][y+1].estGlissant()){}
-			//if (this.plateau[x][y+1].){}
-		}
-    
 	}
 
 	/**
@@ -133,7 +139,9 @@ public class Niveau {
 
   // Illustrez les Javadocs manquantes lorsque vous coderez ces méthodes !
   
-	//public boolean enCours() {}
+	public boolean enCours() {
+		return this.enCours;
+	}
 
   // Joue la commande C passée en paramètres
 	public boolean jouer(Commande c) {
@@ -166,11 +174,11 @@ public class Niveau {
 		boolean result;
 		int PositionfX = this.joueurX+dx;
 		int PositionfY = this.joueurY+dy;
-		if ((dx >=0 || dy>=0) && (PositionfX>=0 && PositionfY <=0)&& PositionfX < plateau.length && PositionfX< plateau[0].length) {
+		if ((dx !=0 || dy!=0) && (PositionfX>=0 && PositionfY >=0)&& PositionfX <= plateau.length-1 && PositionfY<= plateau[0].length-1) {
 			if (this.plateau[PositionfX][PositionfY].estMarchable()) {
-				result = false;
-			} else {
 				result = true;
+			} else {
+				result = false;
 			}
 		}else{
 			result = false;

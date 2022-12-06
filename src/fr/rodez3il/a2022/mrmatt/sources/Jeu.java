@@ -47,7 +47,7 @@ public class Jeu {
 	 */
 	public static void main(String[] args) throws IOException {
 		// Le chemin du plateau à charger s'il n'y a aucun argument
-		String chemin = "C:/Users/ghjuva/IdeaProjects/ProjetMattInteligi/src/niveaux/1rocher.txt";
+		String chemin = "C:/Users/ghjuva/IdeaProjects/ProjetMattInteligi/src/niveaux/AppleTown/1-the-market.txt";
 		// vous pouvez changer ici le nom de fichier si vous le souhaitez.
 		if (args.length > 0) {
 			chemin = args[0];
@@ -60,7 +60,7 @@ public class Jeu {
 		System.out.println("- q : pour quitter");
 		System.out.println("- 0 : pour annuler le dernier déplacement");
 		// Boucle d'attente de jeu
-		/*while (plateau.enCours()) {
+		while (plateau.enCours()) {
 			// Affiche le plateau et récupère la commande du joueur
 			plateau.afficher();
 			System.out.println("Entrez une commande :");
@@ -70,16 +70,16 @@ public class Jeu {
 				// si la commande du joueur modifie
 				// l'état du plateau.
 				plateau.etatSuivant();
-				while (plateau.estIntermediaire()) {
+				/*while (plateau.estIntermediaire()) {
 					// Tant qu'il y a un état intermédiaire,
 					// on fait la mise à jour nécessaire.
 					plateau.afficher();
 					// Petite attente pour animation
 					Utils.attendre(500);
 					plateau.etatSuivant();
-				}
+				}*/
 			}
-		}*/
+		}
 		plateau.afficher();
 		plateau.afficherEtatFinal();
 	}
