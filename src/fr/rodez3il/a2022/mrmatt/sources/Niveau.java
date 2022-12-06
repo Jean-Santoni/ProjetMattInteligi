@@ -14,6 +14,9 @@ public class Niveau {
 	private int pommesRestantes;
 	private int nombreDeplacements;
 	private boolean enCours;
+	private boolean gagner;
+	private boolean perdue;
+	private boolean estIntermediaire;
 
 	
   // Autres attributs que vous jugerez nécessaires...
@@ -24,8 +27,7 @@ public class Niveau {
 	 * @author .............
 	 */
 	public Niveau(String chemin) {
-		this.joueurX=0;
-		this.joueurY=0;
+
 		this.pommesRestantes = 0;
 		this.nombreDeplacements=0;
 		chargerNiveau(chemin);
@@ -86,6 +88,7 @@ public class Niveau {
 
 		System.out.println("Pommes restantes : " + this.pommesRestantes);
 		System.out.println("Déplacements : " + this.nombreDeplacements);
+		System.out.println("Position joueur : " + this.joueurX+" "+this.joueurY);
 	}
 
   // TODO : patron visiteur du Rocher...
@@ -94,6 +97,7 @@ public class Niveau {
 			case FIXE:
 				if(this.plateau[x][y+1].estVide()){
 					r.setEtat(EtatRocher.CHUTE);
+					this.estIntermediaire =true;
 				}
 			break;
 			case CHUTE:
@@ -101,7 +105,9 @@ public class Niveau {
 					this.echanger(x,y,x,y+1);
 				}
 				if (x == this.joueurX && y + 1 == this.joueurY) {
-					//this.perdu = true;
+					this.perdue = true;
+					r.setEtat(EtatRocher.FIXE);
+					this.estIntermediaire=false;
 				}
 				if(this.plateau[x][y+1].estVide()){
 					this.echanger(x,y,x,y+1);
@@ -113,9 +119,11 @@ public class Niveau {
 						this.echanger(x, y, x + 1, y + 1);
 					} else {
 						r.setEtat(EtatRocher.FIXE);
+						this.estIntermediaire=false;
 					}
 				 }else{
 					r.setEtat(EtatRocher.FIXE);
+					this.estIntermediaire=false;
 				}
 		}
 	}
@@ -189,9 +197,9 @@ public class Niveau {
 
 	public void deplacer(int deltaX, int deltaY){
 		if (this.deplacementPossible(deltaX,deltaY)) {
-			this.echanger(this.joueurX, joueurY, deltaX, deltaY);
-			this.joueurX = deltaX;
-			this.joueurY = deltaY;
+			this.echanger(this.joueurX, this.joueurY, this.joueurX+deltaX,  this.joueurY+deltaY);
+			this.joueurX =  this.joueurX+deltaX;
+			this.joueurY = this.joueurY+deltaY;
 			this.nombreDeplacements++;
 		}else{
 			System.out.println("deplacment impossible");
@@ -204,11 +212,25 @@ public class Niveau {
 	 * Affiche l'état final (gagné ou perdu) une fois le jeu terminé.
 	 */
 	public void afficherEtatFinal() {
+
+		if (gagner){
+			System.out.println("la partie est gagné :!!");
+		}else if (perdue)
+		{
+			System.out.println("la partie est perdue :!!");
+		}
 	}
 
 	/**
 	 */
-	//public boolean estIntermediaire() {}
+	public boolean estIntermediaire() {
+		boolean result = false;
+		if(this.enCours && this.estIntermediaire){
+			result =  true;
+		}
+
+	return result;
+	}
 
   // Code pour empêcher la compilation
 

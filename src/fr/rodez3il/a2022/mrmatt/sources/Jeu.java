@@ -70,14 +70,14 @@ public class Jeu {
 				// si la commande du joueur modifie
 				// l'état du plateau.
 				plateau.etatSuivant();
-				/*while (plateau.estIntermediaire()) {
+				while (plateau.estIntermediaire()) {
 					// Tant qu'il y a un état intermédiaire,
 					// on fait la mise à jour nécessaire.
 					plateau.afficher();
 					// Petite attente pour animation
 					Utils.attendre(500);
 					plateau.etatSuivant();
-				}*/
+				}
 			}
 		}
 		plateau.afficher();
