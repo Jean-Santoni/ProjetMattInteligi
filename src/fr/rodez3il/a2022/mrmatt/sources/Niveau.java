@@ -3,6 +3,7 @@ package fr.rodez3il.a2022.mrmatt.sources;
 import fr.rodez3il.a2022.mrmatt.sources.objets.EtatRocher;
 import fr.rodez3il.a2022.mrmatt.sources.objets.ObjetPlateau;
 import fr.rodez3il.a2022.mrmatt.sources.objets.Rocher;
+import fr.rodez3il.a2022.mrmatt.sources.objets.Vide;
 
 public class Niveau {
 	
@@ -95,22 +96,26 @@ public class Niveau {
 	public void etatSuivantVisiteur(Rocher r, int x, int y) {
 		switch (r.getEtat()){
 			case FIXE:
-				if(this.plateau[x][y+1].estVide()){
-					r.setEtat(EtatRocher.CHUTE);
-					this.estIntermediaire =true;
+				if(this.plateau[x][y+1].estVide()&& y<this.plateau[x].length-1){
+						r.setEtat(EtatRocher.CHUTE);
+						this.estIntermediaire =true;
 				}
+
 			break;
 			case CHUTE:
-				if(x==this.plateau.length-1){
-					this.echanger(x,y,x,y+1);
-				}
+
 				if (x == this.joueurX && y + 1 == this.joueurY) {
 					this.perdue = true;
 					r.setEtat(EtatRocher.FIXE);
+					this.enCours = false;
 					this.estIntermediaire=false;
 				}
 				if(this.plateau[x][y+1].estVide()){
+					if(x==this.plateau.length-1){
+						r.setEtat(EtatRocher.FIXE);
+					}else {
 					this.echanger(x,y,x,y+1);
+					}
 				}
 				if (this.plateau[x][y+1].estGlissant()){
 					if(this.plateau[x-1][y].estVide() && this.plateau[x-1][y+1].estVide()){
@@ -125,6 +130,12 @@ public class Niveau {
 					r.setEtat(EtatRocher.FIXE);
 					this.estIntermediaire=false;
 				}
+		}
+	}
+
+	public void etatSuivantVisiteurPomme( int x, int y) {
+		if(this.plateau[x][y] == this.plateau[this.joueurX][this.joueurY]){
+			this.pommesRestantes--;
 		}
 	}
 
@@ -156,16 +167,16 @@ public class Niveau {
 		switch (c) {
 			case HAUT:
 
-				deplacer(-1, 0);
-				break;
-			case GAUCHE:
 				deplacer(0, -1);
 				break;
+			case GAUCHE:
+				deplacer(-1, 0);
+				break;
 			case BAS:
-				deplacer(1, 0);
+				deplacer(0, 1);
 				break;
 			case DROITE:
-				deplacer(0, 1);
+				deplacer(1, 0);
 				break;
 			case ANNULER:
 				break;
@@ -198,6 +209,7 @@ public class Niveau {
 	public void deplacer(int deltaX, int deltaY){
 		if (this.deplacementPossible(deltaX,deltaY)) {
 			this.echanger(this.joueurX, this.joueurY, this.joueurX+deltaX,  this.joueurY+deltaY);
+			this.plateau[this.joueurX][this.joueurY]=new Vide();
 			this.joueurX =  this.joueurX+deltaX;
 			this.joueurY = this.joueurY+deltaY;
 			this.nombreDeplacements++;

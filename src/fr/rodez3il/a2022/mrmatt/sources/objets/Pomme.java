@@ -14,4 +14,8 @@ public  class Pomme extends ObjetPlateau {
     public  char afficher(){
         return '+';
     }
+    @Override
+    public void visiterPlateauCalculEtatSuivant(Niveau plateau, int x, int y) {
+        plateau.etatSuivantVisiteurPomme(x, y);
+    }
 }
