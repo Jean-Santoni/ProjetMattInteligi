@@ -9,9 +9,13 @@ public class Niveau {
 
 	// Les objets sur le plateau du niveau
 	private ObjetPlateau[][] plateau;
+	private ObjetPlateau[][] plateauprecedent;
 	// Position du joueur
 	private int joueurX;
 	private int joueurY;
+
+	private int joueurXPrécédent;
+	private int joueurYPrécédent;
 
 	private int pommesRestantes;
 	private int nombreDeplacements;
@@ -189,8 +193,14 @@ public class Niveau {
 				deplacer(1, 0);
 				break;
 			case ANNULER:
+			/*	this.plateau = plateauprecedent;
+				this.joueurX = this.joueurXPrécédent;
+				this.joueurY = this.joueurYPrécédent;*/
 				break;
 			case QUITTER:
+				this.estIntermediaire=false;
+				this.perdue=true;
+				this.enCours = false;
 				break;
 			case ERREUR:
 				break;
@@ -218,6 +228,9 @@ public class Niveau {
 
 	public void deplacer(int deltaX, int deltaY){
 		if (this.deplacementPossible(deltaX,deltaY)) {
+			this.plateauprecedent = this.plateau;
+			this.joueurXPrécédent = this.joueurX;
+			this.joueurYPrécédent = this.joueurY;
 			this.echanger(this.joueurX, this.joueurY, this.joueurX+deltaX,  this.joueurY+deltaY);
 			this.plateau[this.joueurX][this.joueurY]=new Vide();
 			this.joueurX =  this.joueurX+deltaX;

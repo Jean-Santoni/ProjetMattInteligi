@@ -47,7 +47,7 @@ public class Jeu {
 	 */
 	public static void main(String[] args) throws IOException {
 		// Le chemin du plateau à charger s'il n'y a aucun argument
-		String chemin = "C:/Users/ghjuva/IdeaProjects/ProjetMattInteligi/src/niveaux/1rocher.txt";
+		String chemin = "src/niveaux/AppleTown/2-apple-bins.txt";
 		// vous pouvez changer ici le nom de fichier si vous le souhaitez.
 		if (args.length > 0) {
 			chemin = args[0];
@@ -58,7 +58,7 @@ public class Jeu {
 		System.out.println("Commandes :");
 		System.out.println("- 8, 4, 6, 2 : pour vous déplacer dans la direction souhaitée");
 		System.out.println("- q : pour quitter");
-		System.out.println("- 0 : pour annuler le dernier déplacement");
+		System.out.println("- a : pour annuler le dernier déplacement");
 		// Boucle d'attente de jeu
 		while (plateau.enCours()) {
 			// Affiche le plateau et récupère la commande du joueur
