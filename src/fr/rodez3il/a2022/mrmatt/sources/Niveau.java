@@ -6,12 +6,13 @@ import fr.rodez3il.a2022.mrmatt.sources.objets.Rocher;
 import fr.rodez3il.a2022.mrmatt.sources.objets.Vide;
 
 public class Niveau {
-	
+
 	// Les objets sur le plateau du niveau
 	private ObjetPlateau[][] plateau;
 	// Position du joueur
 	private int joueurX;
 	private int joueurY;
+
 	private int pommesRestantes;
 	private int nombreDeplacements;
 	private boolean enCours;
@@ -19,9 +20,9 @@ public class Niveau {
 	private boolean perdue;
 	private boolean estIntermediaire;
 
-	
-  // Autres attributs que vous jugerez nécessaires...
-  
+
+	// Autres attributs que vous jugerez nécessaires...
+
 	/**
 	 * Constructeur public : crée un niveau depuis un fichier.
 	 * @param chemin .....
@@ -92,16 +93,16 @@ public class Niveau {
 		System.out.println("Position joueur : " + this.joueurX+" "+this.joueurY);
 	}
 
-  // TODO : patron visiteur du Rocher...
+	// TODO : patron visiteur du Rocher...
 	public void etatSuivantVisiteur(Rocher r, int x, int y) {
 		switch (r.getEtat()){
 			case FIXE:
-				if(this.plateau[x][y+1].estVide()&& y<this.plateau[x].length-1){
-						r.setEtat(EtatRocher.CHUTE);
-						this.estIntermediaire =true;
+				if( y+1 <this.plateau[x].length && this.plateau[x][y+1].estVide()){
+					r.setEtat(EtatRocher.CHUTE);
+					this.estIntermediaire =true;
 				}
 
-			break;
+				break;
 			case CHUTE:
 
 				if (x == this.joueurX && y + 1 == this.joueurY) {
@@ -113,8 +114,9 @@ public class Niveau {
 				if(this.plateau[x][y+1].estVide()){
 					if(x==this.plateau.length-1){
 						r.setEtat(EtatRocher.FIXE);
+						//this.estIntermediaire= false;
 					}else {
-					this.echanger(x,y,x,y+1);
+						this.echanger(x,y,x,y+1);
 					}
 				}
 				if (this.plateau[x][y+1].estGlissant()){
@@ -124,45 +126,53 @@ public class Niveau {
 						this.echanger(x, y, x + 1, y + 1);
 					} else {
 						r.setEtat(EtatRocher.FIXE);
-						this.estIntermediaire=false;
+						//	this.estIntermediaire=false;
 					}
-				 }else{
+				}else{
 					r.setEtat(EtatRocher.FIXE);
-					this.estIntermediaire=false;
+					//this.estIntermediaire=false;
 				}
+		}
+		if (r.getEtat()==EtatRocher.CHUTE){
+			this.estIntermediaire = true;
 		}
 	}
 
 	public void etatSuivantVisiteurPomme( int x, int y) {
-		if(this.plateau[x][y] == this.plateau[this.joueurX][this.joueurY]){
-			this.pommesRestantes--;
-		}
+		this.pommesRestantes++;
 	}
 
 	/**
 	 * Calcule l'état suivant du niveau.
 	 * ........
-	 * @author 
+	 * @author
 	 */
 	public void etatSuivant() {
+		this.pommesRestantes=0;
+		this.estIntermediaire=false;
 		for (int x = plateau.length - 1; x >= 0; x--) {
 			for (int y = plateau[x].length - 1; y >= 0; y--) {
 				plateau[x][y].visiterPlateauCalculEtatSuivant(this, x, y);
 			}
 		}
+		if (this.pommesRestantes==0){
+			this.enCours=false;
+			this.estIntermediaire=false;
+			this.gagner=true;
+		}
 
 	}
-    // TODO
+	// TODO
 
 
 
-  // Illustrez les Javadocs manquantes lorsque vous coderez ces méthodes !
-  
+	// Illustrez les Javadocs manquantes lorsque vous coderez ces méthodes !
+
 	public boolean enCours() {
 		return this.enCours;
 	}
 
-  // Joue la commande C passée en paramètres
+	// Joue la commande C passée en paramètres
 	public boolean jouer(Commande c) {
 		switch (c) {
 			case HAUT:
@@ -214,7 +224,7 @@ public class Niveau {
 			this.joueurY = this.joueurY+deltaY;
 			this.nombreDeplacements++;
 		}else{
-			System.out.println("deplacment impossible");
+			System.out.println("déplacement impossible");
 		}
 	}
 
@@ -241,11 +251,11 @@ public class Niveau {
 			result =  true;
 		}
 
-	return result;
+		return result;
 	}
 
-  // Code pour empêcher la compilation
+	// Code pour empêcher la compilation
 
-  //MANGEZ DES POMMES
+	//MANGEZ DES POMMES
 
 }
