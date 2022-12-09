@@ -32,20 +32,43 @@ public abstract class ObjetPlateau {
 		}
 		return nouveau;
 	}
+	/**
+	 * Affiche l'objet.
+	 * @author Jean Santoni
+	 */
 	public abstract char afficher();
-
+	/**
+	 * retourne si l'objet est vide
+	 * @author Jean Santoni
+	 */
 	public boolean estVide(){
 		return false ;
 	}
+	/**
+	 * retourne si l'objet est marchable
+	 * @author Jean Santoni
+	 */
 	public boolean estMarchable(){
 		return false ;
 	}
+	/**
+	 * retourne si l'objet est poussable .
+	 * @author Jean Santoni
+	 */
 	public boolean estPoussable(){
 		return false ;
 	}
+	/**
+	 * retourne si l'objet est glissant .
+	 * @author Jean Santoni
+	 */
 	public boolean estGlissant(){
 		return false ;
 	}
+	/**
+	 * calcul l'état suivant de l'objet.
+	 * @author Jean Santoni
+	 */
 	public void visiterPlateauCalculEtatSuivant(Niveau niveau, int x, int y){
 
 	}

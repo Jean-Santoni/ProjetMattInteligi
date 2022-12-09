@@ -17,14 +17,26 @@ public  class Rocher extends ObjetPlateau {
         this.etat = etat;
     }
 
+    /**
+     * retourne si l'objet est poussable.
+     * @author Jean Santoni
+     */
     @Override
     public boolean estPoussable(){
         return true ;
     }
+    /**
+     * retourne si l'objet est glissant .
+     * @author Jean Santoni
+     */
     @Override
     public boolean estGlissant(){
         return true ;
     }
+    /**
+     * Affiche l'objet.
+     * @author Jean Santoni
+     */
     public  char afficher(){
         return '*';
     }

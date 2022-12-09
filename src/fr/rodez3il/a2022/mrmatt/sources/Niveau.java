@@ -260,7 +260,12 @@ public class Niveau {
 		return result ;
 	}
 
-
+	/**
+	 * deplace le joueur su le plateau
+	 * @param deltaX coordonée future en ordonnée
+	 * @param deltaY coordonée future en abscisse
+	 * @author Jean Santoni
+	 */
 	public void deplacer(int deltaX, int deltaY){
 		if (this.deplacementPossible(deltaX,deltaY)) {
 			this.plateauprecedent = this.plateau;
@@ -280,6 +285,7 @@ public class Niveau {
 
 	/**
 	 * Affiche l'état final (gagné ou perdu) une fois le jeu terminé.
+	 * @author Jean Santoni
 	 */
 	public void afficherEtatFinal() {
 
@@ -292,6 +298,8 @@ public class Niveau {
 	}
 
 	/**
+	 * Verifie l'état intermediaire
+	 * @author Jean Santoni
 	 */
 	public boolean estIntermediaire() {
 		boolean result = false;

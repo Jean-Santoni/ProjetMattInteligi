@@ -7,10 +7,18 @@ public  class Pomme extends ObjetPlateau {
     public Pomme(){
 
     }
+    /**
+     * retourne si l'objet est marchable
+     * @author Jean Santoni
+     */
     @Override
     public boolean estMarchable(){
         return true ;
     }
+    /**
+     * Affiche l'objet.
+     * @author Jean Santoni
+     */
     public  char afficher(){
         return '+';
     }
