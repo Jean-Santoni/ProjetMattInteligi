@@ -29,8 +29,8 @@ public class Niveau {
 
 	/**
 	 * Constructeur public : crée un niveau depuis un fichier.
-	 * @param chemin .....
-	 * @author .............
+	 * @param chemin chemin vers le niveau
+	 * @author Jean Santoni
 	 */
 	public Niveau(String chemin) {
 
@@ -38,6 +38,13 @@ public class Niveau {
 		this.nombreDeplacements=0;
 		chargerNiveau(chemin);
 	}
+
+
+	/**
+	 * Permet de charger un niveau au début de la partie , configure le plateau de jeu
+	 * @param chemin chemin vers le niveau
+	 * @author Jean Santoni
+	 */
 
 	private void chargerNiveau(String chemin) {
 		String fichier = Utils.lireFichier(chemin);
@@ -69,7 +76,12 @@ public class Niveau {
 
 
 	/**
-	 * Javadoc à réaliser...
+	 * echange deux éléments du plateau
+	 * @param sourceX coordonée présente en abscisse
+	 * @param sourceY coordonée présente en ordonnée
+	 * @param destinationX coordonée future en abscisse
+	 * @param destinationY coordonée future en ordonnée
+	 * @author Jean Santoni
 	 */
 	private void echanger(int sourceX, int sourceY, int destinationX, int destinationY) {
 
@@ -81,7 +93,7 @@ public class Niveau {
 
 	/**
 	 * Produit une sortie du niveau sur la sortie standard.
-	 * ................
+	 * @author Jean Santoni
 	 */
 	public void afficher() {
 		for(int x = 0; x < this.plateau[0].length; ++x) {
@@ -97,7 +109,13 @@ public class Niveau {
 		System.out.println("Position joueur : " + this.joueurX+" "+this.joueurY);
 	}
 
-	// TODO : patron visiteur du Rocher...
+	/**
+	 * calcul l'état suivant d'un rocher
+	 * @param r rocher en cours de calcul
+	 * @param x coordonée présente en ordonnée
+	 * @param y coordonée présente en abscisse
+	 * @author Jean Santoni
+	 */
 	public void etatSuivantVisiteur(Rocher r, int x, int y) {
 		switch (r.getEtat()){
 			case FIXE:
@@ -141,15 +159,19 @@ public class Niveau {
 			this.estIntermediaire = true;
 		}
 	}
-
+	/**
+	 * calcul l'état suivant d'une pomme
+	 * @param x coordonée présente en ordonnée
+	 * @param y coordonée présente en abscisse
+	 * @author Jean Santoni
+	 */
 	public void etatSuivantVisiteurPomme( int x, int y) {
 		this.pommesRestantes++;
 	}
 
 	/**
-	 * Calcule l'état suivant du niveau.
-	 * ........
-	 * @author
+	 * calcul l'état suivant du niveau et verification du nombre de pomme pour gagner la partie
+	 * @author Jean Santoni
 	 */
 	public void etatSuivant() {
 		this.pommesRestantes=0;
@@ -171,11 +193,19 @@ public class Niveau {
 
 
 	// Illustrez les Javadocs manquantes lorsque vous coderez ces méthodes !
-
+	/**
+	 * retourne si la partie est en cours
+	 * @author Jean Santoni
+	 */
 	public boolean enCours() {
 		return this.enCours;
 	}
+	/**
+	 * en fonction de la commande renseignée fais déplacer le joueur dans la direction voulu ou annule le déplacement précédent ou quitte le jeu
+	 * @param c commande renseignée par le joueur
 
+	 * @author Jean Santoni
+	 */
 	// Joue la commande C passée en paramètres
 	public boolean jouer(Commande c) {
 		switch (c) {
@@ -208,7 +238,12 @@ public class Niveau {
 		return true;
 	}
 
-
+	/**
+	 * vérifie si le déplacement voulu est possible
+	 * @param dx rocher en cours de calcul
+	 * @param dy coordonée présente en ordonnée
+	 * @author Jean Santoni
+	 */
 	private boolean deplacementPossible(int dx, int dy){
 		boolean result;
 		int PositionfX = this.joueurX+dx;
